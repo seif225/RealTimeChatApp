@@ -1,5 +1,6 @@
 package com.example.realtimechatapp;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.arch.lifecycle.ViewModelProviders;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
     //variables
     private FirebaseDatabase firebaseDB;
     private DatabaseReference ref;
@@ -29,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
     List<Chat> messages = new ArrayList<Chat>();
     EditText mEditText;
     Button sendBtn;
-
-
+    Chat currentMessage;
     ChatAdapter adapter;
     RecyclerView recyclerView;
+
        //onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +53,24 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         sendBtn=findViewById(R.id.btn);
         mEditText=findViewById(R.id.et);
+        currentMessage = new Chat();
+
+
+
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("btn","im here");
-                Chat currentMessage= new Chat();
+                Log.e("et vaule" , mEditText.getText().toString());
+                if (mEditText.getText() != null){
                 currentMessage.setName("Seif");
                 currentMessage.setMessage(mEditText.getText().toString());
                ref.child("Chat").push().setValue(currentMessage);
-                mEditText.getText().clear();
-            }
+                mEditText.getText().clear();}
+                else if (mEditText.getText() == null)
+                {
+                    Toast.makeText(getBaseContext() , "you can't send a empty message" , Toast.LENGTH_LONG).show();
+            }}
         });
 
 

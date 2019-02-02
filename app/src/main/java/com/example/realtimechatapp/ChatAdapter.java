@@ -13,6 +13,7 @@ import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @NonNull
+
     Context context;
     List<Chat> messages;
     public ChatAdapter(Context context , List<Chat> messages){
